@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBoth } from '../../slices/current_note';
 import { selectNotes } from '../../slices/notes';
@@ -21,9 +21,9 @@ const NotesList = ({ navigation}) => {
     const { notes } = useSelector(selectNotes);
     const noteList = notes.map((n, key) => <NoteCell name={n.name} text={n.text} id={n.id} key={key} navigation={navigation}/>)
     return (
-        <View>
+        <ScrollView>
             {noteList}
-        </View>
+        </ScrollView>
     );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { SafeAreaView, View, Text, Button } from 'react-native';
+import { SafeAreaView, View, Text, Button, Image, TouchableOpacity } from 'react-native';
 import NotesList from '../list/notes_list';
 import s from './styles';
 import Note from '../note/note';
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { newNote, selectNotes, deleteNote, setNotes } from '../../slices/notes';
 import { selectCurrentNote, setBoth } from '../../slices/current_note';
 import { AsyncStorage } from 'react-native';
+import AddImage from '../../images/new.png';
 
 const Stack = createNativeStackNavigator();
 //B6CB8A
@@ -56,15 +57,16 @@ const Main = ({ navigation }) => {
                             fontWeight: 'bold',
                         },
                         headerRight: () => (
-                            <Button
+                            <TouchableOpacity
+                                style={s.new_button}
                                 onPress={() => {
-                                    navigation.navigate('Note');
+                                    //navigation.navigate('Note');
                                     dispatch(newNote({ id: notes.length + 1}));
                                     dispatch(setBoth({ id: notes.length + 1, name: "Title", text:"Text"}))
                                 }}
-                                title="New"
-
-                            />
+                            >
+                                <Image style={s.image} source={AddImage}/>
+                            </TouchableOpacity>
                         ),
                     })}
                 />
