@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { SafeAreaView, View, Text, Button } from 'react-native';
 import NotesList from '../list/notes_list';
@@ -8,8 +8,9 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { newNote, selectNotes } from '../../slices/notes';
-import { setBoth } from '../../slices/current_note';
+import { newNote, selectNotes, deleteNote, setNotes } from '../../slices/notes';
+import { selectCurrentNote, setBoth } from '../../slices/current_note';
+import { AsyncStorage } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 //B6CB8A
@@ -25,6 +26,13 @@ const MyTheme = {
 const Main = ({ navigation }) => {
     const dispatch = useDispatch();
     const { notes } = useSelector(selectNotes);
+    const { id, name, text } = useSelector(selectCurrentNote);
+    useEffect(()=> {
+        AsyncStorage.getItem('notes', (err, result) => {
+            console.log(result);
+            dispatch(setNotes(JSON.parse(result)));
+        });
+    }, [])
     return (
         <NavigationContainer theme={MyTheme}>
             <Stack.Navigator
@@ -62,7 +70,7 @@ const Main = ({ navigation }) => {
                 />
                 <Stack.Screen 
                 name="Note" component={Note}
-                    options={{
+                    options={({ navigation }) => ({
                         title: 'Notes',
                         headerStyle: {
                             backgroundColor: '#989C63',
@@ -71,7 +79,18 @@ const Main = ({ navigation }) => {
                         headerTitleStyle: {
                             fontWeight: 'bold',
                         },
-                    }} />
+                        headerRight: () => (
+                            <Button
+                                onPress={() => {
+                                    navigation.navigate('NotesList');
+                                    dispatch(deleteNote({ id }));
+                                    
+                                }}
+                                title="Delete"
+
+                            />
+                        ),
+                    })} />
             </Stack.Navigator>
         </NavigationContainer>
     );
