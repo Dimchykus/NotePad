@@ -1,19 +1,25 @@
 import React from 'react';
 
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setBoth } from '../../slices/current_note';
 import { selectNotes } from '../../slices/notes';
 import s from './styles';
 
-const NoteCell = ({ name, text}) => (
-    <TouchableOpacity style={s.main} >
+const NoteCell = ({ name, text, id, navigation}) => {
+    const dispatch = useDispatch();
+    return(
+    <TouchableOpacity style={s.main} onPress={() => {
+        navigation.navigate('Note');
+        dispatch(setBoth({name, text, id}));
+    }}>
         <Text style={s.name}>{name}</Text>
     </TouchableOpacity>
-)
+)}
 
-const NotesList = () => {
+const NotesList = ({ navigation}) => {
     const { notes } = useSelector(selectNotes);
-    const noteList = notes.map((n, key) => <NoteCell name={n.name} text={n.text} key={key}/>)
+    const noteList = notes.map((n, key) => <NoteCell name={n.name} text={n.text} id={n.id} key={key} navigation={navigation}/>)
     return (
         <View>
             {noteList}

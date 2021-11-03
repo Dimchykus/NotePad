@@ -1,27 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState = {
-   name: "",
-   text: ""
+    id: null,
+    name: "",
+    text: ""
 }
 
 export const CurrentNote = createSlice({
-    name: 'notes',
+    name: 'note',
     initialState,
     reducers: {
-        increment: (state) => {
-            state.value += 1
+        setName: (state, action) => {
+            state.name = action.payload;
         },
-        decrement: (state) => {
-            state.value -= 1
+        setText: (state, action) => {
+            state.text = action.payload;
         },
-        incrementByAmount: (state, action) => {
-            state.value += action.payload
+        setId: (state, action) => {
+            state.text = action.payload;
         },
+        setBoth: (state, action) => {
+            state.name = action.payload.name;
+            state.text = action.payload.text;
+            state.id = action.payload.id;
+        },
+    },
+    extraReducers: (builder) => {
+
     },
 })
 
-export const { increment, decrement, incrementByAmount } = CurrentNote.actions
+export const { setName, setText, setBoth } = CurrentNote.actions
 
 export const selectCurrentNote = (state) => state.currentNote;
 
