@@ -55,6 +55,7 @@ export const Notes = createSlice({
             const note = state.notes.find(n => n.id == payload.id);
             note.name = payload.name;
             note.text = payload.text;
+            console.log(payload.text);
             updateStorage(state.notes);
         });
     },

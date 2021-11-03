@@ -8,13 +8,16 @@ const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
     main: {
-        backgroundColor: '#B6CB8A',
+        marginHorizontal: 15
     },
-    image:{
-        height: windowWidth * 0.08,
-        width: windowWidth * 0.08
+    name:{
+        fontSize: 23,
+        fontWeight: 'bold'
     },
-    new_button:{
-        
-    }
-});
+    text: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        width: windowWidth,
+        paddingRight: 20
+    },
+})

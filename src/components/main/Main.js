@@ -12,6 +12,7 @@ import { newNote, selectNotes, deleteNote, setNotes } from '../../slices/notes';
 import { selectCurrentNote, setBoth } from '../../slices/current_note';
 import { AsyncStorage } from 'react-native';
 import AddImage from '../../images/new.png';
+import DeleteImage from '../../images/delete.jpg';
 
 const Stack = createNativeStackNavigator();
 //B6CB8A
@@ -28,7 +29,7 @@ const Main = ({ navigation }) => {
     const dispatch = useDispatch();
     const { notes } = useSelector(selectNotes);
     const { id, name, text } = useSelector(selectCurrentNote);
-    useEffect(()=> {
+    useEffect(() => {
         AsyncStorage.getItem('notes', (err, result) => {
             console.log(result);
             dispatch(setNotes(JSON.parse(result)));
@@ -61,17 +62,17 @@ const Main = ({ navigation }) => {
                                 style={s.new_button}
                                 onPress={() => {
                                     //navigation.navigate('Note');
-                                    dispatch(newNote({ id: notes.length + 1}));
-                                    dispatch(setBoth({ id: notes.length + 1, name: "Title", text:"Text"}))
+                                    dispatch(newNote({ id: notes.length + 1 }));
+                                    dispatch(setBoth({ id: notes.length + 1, name: "Title", text: "Text" }))
                                 }}
                             >
-                                <Image style={s.image} source={AddImage}/>
+                                <Image style={s.image} source={AddImage} />
                             </TouchableOpacity>
                         ),
                     })}
                 />
-                <Stack.Screen 
-                name="Note" component={Note}
+                <Stack.Screen
+                    name="Note" component={Note}
                     options={({ navigation }) => ({
                         title: 'Notes',
                         headerStyle: {
@@ -82,15 +83,16 @@ const Main = ({ navigation }) => {
                             fontWeight: 'bold',
                         },
                         headerRight: () => (
-                            <Button
+                            <TouchableOpacity
                                 onPress={() => {
                                     navigation.navigate('NotesList');
                                     dispatch(deleteNote({ id }));
-                                    
-                                }}
-                                title="Delete"
 
-                            />
+                                }}
+
+                            >
+                                <Image style={s.image} source={DeleteImage} />
+                            </TouchableOpacity>
                         ),
                     })} />
             </Stack.Navigator>
