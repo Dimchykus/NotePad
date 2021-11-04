@@ -8,16 +8,19 @@ const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
     main: {
-        marginHorizontal: 15
+        flex: 1
     },
     name:{
         fontSize: 23,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        padding: 0,
+        marginVertical: 10,
     },
     text: {
         fontSize: 16,
         fontWeight: 'bold',
-        width: windowWidth,
-        paddingRight: 20
+
+        padding: 0,
+        marginHorizontal: 15
     },
 })

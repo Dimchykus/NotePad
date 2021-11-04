@@ -13,6 +13,7 @@ import { selectCurrentNote, setBoth } from '../../slices/current_note';
 import { AsyncStorage } from 'react-native';
 import AddImage from '../../images/new.png';
 import DeleteImage from '../../images/delete.jpg';
+import uuid from 'react-native-uuid';
 
 const Stack = createNativeStackNavigator();
 //B6CB8A
@@ -57,13 +58,18 @@ const Main = ({ navigation }) => {
                         headerTitleStyle: {
                             fontWeight: 'bold',
                         },
+                        headerTitleStyle: {
+                            fontSize: 26
+                        },
                         headerRight: () => (
                             <TouchableOpacity
                                 style={s.new_button}
                                 onPress={() => {
                                     //navigation.navigate('Note');
-                                    dispatch(newNote({ id: notes.length + 1 }));
-                                    dispatch(setBoth({ id: notes.length + 1, name: "Title", text: "Text" }))
+                                    const id = uuid.v4();
+                                    console.log(id)
+                                    dispatch(newNote({ id }));
+                                    dispatch(setBoth({ id, name: "Title", text: "Text" }))
                                 }}
                             >
                                 <Image style={s.image} source={AddImage} />
@@ -72,7 +78,7 @@ const Main = ({ navigation }) => {
                     })}
                 />
                 <Stack.Screen
-                    name="Note" component={Note}
+                    name="Note" component={Note} 
                     options={({ navigation }) => ({
                         title: 'Notes',
                         headerStyle: {
@@ -82,14 +88,16 @@ const Main = ({ navigation }) => {
                         headerTitleStyle: {
                             fontWeight: 'bold',
                         },
+                        headerTitleStyle: {
+                            fontSize: 26
+                        },
+                       
                         headerRight: () => (
                             <TouchableOpacity
                                 onPress={() => {
                                     navigation.navigate('NotesList');
                                     dispatch(deleteNote({ id }));
-
                                 }}
-
                             >
                                 <Image style={s.image} source={DeleteImage} />
                             </TouchableOpacity>
